@@ -225,7 +225,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 600902609}
-  - component: {fileID: 600902608}
+  - component: {fileID: 600902610}
   m_Layer: 0
   m_Name: PatchPlayer
   m_TagString: Untagged
@@ -233,20 +233,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &600902608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 600902607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9480279e7e4c3430c8bf6f89fdd90746, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TestSendCC
-  patch: {fileID: 1057056704}
-  frequency: 1
 --- !u!4 &600902609
 Transform:
   m_ObjectHideFlags: 0
@@ -262,6 +248,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &600902610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600902607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bc543ace5ed62f52ae552d22d037582, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PdIntController
+  pdInstance: {fileID: 1057056704}
+  sampledValuePhasor: 0
+  samplingNumberPhasor: 1
+  volume: 0.5
 --- !u!1 &1057056703
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,9 +294,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d53a7fae336845530a3487741d9c6b1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LibPdInstance
-  patchName: SendMidiNote
+  patchName: SoundTestCC
   patchDir: /PdAssets/
-  patch: {fileID: 102900000, guid: 98dce8215cbddfd23be1378a70416d69, type: 3}
+  patch: {fileID: 102900000, guid: 30544f87133d80459907c59424522361, type: 3}
   pipePrintToConsole: 1
   androidExtraStreamingAssets: []
   loaded: 0
