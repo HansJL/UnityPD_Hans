@@ -35,11 +35,11 @@
       "url": "https://packages.unity.com"
     },
     "jp.keijiro.rtmidi": {
-      "version": "2.2.0",
+      "version": "https://github.com/keijiro/jp.keijiro.rtmidi.git?path=Packages/jp.keijiro.rtmidi#2.2.0",
       "depth": 0,
-      "source": "registry",
+      "source": "git",
       "dependencies": {},
-      "url": "https://registry.npmjs.com"
+      "hash": "7a67cbd8e741a7f9ef879912f5f1eef4671c1b09"
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
