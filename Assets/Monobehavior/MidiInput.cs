@@ -1,19 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using RtMidi;
 
 public class MidiInput : MonoBehaviour
 {
-    [Serializable] public class NoteOnEvent : UnityEvent<int, int, int> {}
-    [Serializable] public class NoteOffEvent : UnityEvent<int, int> {}
-    [Serializable] public class ControlChangeEvent : UnityEvent<int, int, int> {}
-
-    [Header("Events")]
-    public NoteOnEvent onNoteOn;
-    public NoteOffEvent onNoteOff;
-    public ControlChangeEvent onControlChange;
+    public event Action<int, int, int> onNoteOn;
+    public event Action<int, int> onNoteOff;
+    public event Action<int, int, int> onControlChange;
 
     [Header("Options")]
     [SerializeField] bool logMessages = true;
