@@ -1,5 +1,15 @@
 {
+  "scopedRegistries": [
+    {
+      "name": "Keijiro",
+      "url": "https://registry.npmjs.com",
+      "scopes": [
+        "jp.keijiro"
+      ]
+    }
+  ],
   "dependencies": {
+    "jp.keijiro.rtmidi": "2.2.0",
     "com.unity.multiplayer.center": "1.0.1",
     "com.unity.toolchain.linux-x86_64": "2.0.11",
     "com.unity.modules.accessibility": "1.0.0",
