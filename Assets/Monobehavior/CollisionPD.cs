@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class CollisionPD : MonoBehaviour
 {
@@ -12,10 +13,9 @@ public class CollisionPD : MonoBehaviour
     private float restY;
     private bool jumpRequested;
 
-    [Header("Collision Sound File")] 
-    [SerializeField] private AudioClip collisionClip;
-    [SerializeField] [Range(0f, 1f)] private float collisionVolume = 1f;
-
+    private Action<int, int, int> onControlChangeCallback;
+    private Action<int, int, int> onNoteOnCallback;
+   
     [Header("Jump")] 
     [SerializeField] private float jumpForce = 10f;
     [SerializeField] private bool jumpWithSpace = true;
@@ -24,10 +24,18 @@ public class CollisionPD : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         if (rb != null) rb.freezeRotation = true;
-
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null && collisionClip != null)
-            audioSource = gameObject.AddComponent<AudioSource>();
+        onControlChangeCallback = OnControlChangeCallback;
+        onNoteOnCallback = OnNoteOnCallback;
+    }
+    void OnEnable()
+    {
+        midiInput.onControlChange += onControlChangeCallback;
+        midiInput.onNoteOn += onNoteOnCallback;
+    }
+    void OnDisable()
+    {
+        midiInput.onControlChange -= onControlChangeCallback;
+        midiInput.onNoteOn -= onNoteOnCallback;
     }
 
     void Start()
@@ -48,6 +56,7 @@ public class CollisionPD : MonoBehaviour
         {
             jumpRequested = true;
         }
+        
     }
 
     void FixedUpdate()
@@ -57,13 +66,13 @@ public class CollisionPD : MonoBehaviour
         if (jumpRequested)
         {
             jumpRequested = false;
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
 
-        if (rb.velocity.y <= 0f && rb.position.y < restY)
+        if (rb.linearVelocity.y <= 0f && rb.position.y < restY)
         {
             rb.position = new Vector2(rb.position.x, restY);
-            rb.velocity = new Vector2(rb.velocity.x, 0f);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
         }
     }
 
@@ -72,16 +81,34 @@ public class CollisionPD : MonoBehaviour
         // Prüft, ob wir das Sphere-Objekt treffen
         if (collision.gameObject.CompareTag("Sphere"))
         {
-            if (collisionClip != null && audioSource != null)
-            {
-                audioSource.PlayOneShot(collisionClip, collisionVolume);
-            }
 
             if (pdInstance != null)
             {
                 // Wir senden einen Float-Impuls an den Namen "trigger_cc71"
-                pdInstance.SendFloat("trigger_cc71", 127f);
+                pdInstance.SendFloat("collision", 127f);
                 Debug.Log("[Unity] Impuls für CC71 an Pure Data geschickt.");
+            }
+        }
+    }
+     void OnControlChangeCallback(int channel, int control, int value)
+    {
+        // Pad touch: usually value > 0; release often sends 0
+        if (channel == 1 && control == 71 && value > 0)
+        {
+            if (pdInstance != null)
+            {
+                Debug.Log("[Unity] Pad touch for CC71 detected.");
+            }
+        }
+    }
+    void OnNoteOnCallback(int channel, int note, int velocity)
+    {
+        if (channel == 9 && note == 40 && velocity > 0)
+        {
+            if (pdInstance != null)
+            {
+                pdInstance.SendFloat("sahOn", 127f);
+                Debug.Log("[Unity] Sah on detected.");
             }
         }
     }
