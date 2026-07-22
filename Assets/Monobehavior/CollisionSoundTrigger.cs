@@ -106,15 +106,15 @@ public class CollisionSoundTrigger : MonoBehaviour
             jumpRequested = false;
             rb.WakeUp();
             // Geändert auf klassisches 'velocity' für maximale Kompatibilität
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             Debug.Log($"{name}: Jump!");
         }
 
         // Nur beim Fallen clampen — nicht während des Sprungs
-        if (rb.velocity.y <= 0f && rb.position.y < restY)
+        if (rb.linearVelocity.y <= 0f && rb.position.y < restY)
         {
             rb.position = new Vector2(rb.position.x, restY);
-            rb.velocity = new Vector2(rb.velocity.x, 0f);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
         }
     }
 

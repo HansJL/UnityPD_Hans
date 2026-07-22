@@ -1,7 +1,11 @@
 using UnityEngine;
-
+using System;
 public class PlayerMovement : MonoBehaviour
 {
+
+    [Header("Midi Input")]
+    [SerializeField] private MidiInput midiInput;
+    private Action<int, int, int> onNoteOnCallback;
     [Header("Global Control")]
     [Tooltip("Kann im Inspector geschoben ODER von Pd gesteuert werden.")]
     [Range(0.1f, 3f)] // Erzeugt einen coolen Schieberegler im Inspector von 0.1 bis 3-facher Geschwindigkeit
@@ -25,8 +29,16 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        onNoteOnCallback = OnNoteOnCallback;
     }
-
+    void OnEnable()
+    {
+        midiInput.onNoteOn += onNoteOnCallback;
+    }
+    void OnDisable()
+    {
+        midiInput.onNoteOn -= onNoteOnCallback;
+    }
     private void Update()
     {
         // Live-Anpassung der Animation
@@ -71,5 +83,15 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawLine(leftTarget + Vector3.up, leftTarget + Vector3.down);
         Gizmos.DrawLine(rightTarget + Vector3.up, rightTarget + Vector3.down);
         Gizmos.DrawLine(leftTarget, rightTarget);
+    }
+    void OnNoteOnCallback(int channel, int note, int velocity)
+    {
+        if (channel == 0 && velocity > 0)
+        {
+            float noteFloat = (float)note;
+            noteFloat = (noteFloat - 48f) ;
+            Debug.Log("[Unity] Note on detected: " + noteFloat);
+            globalSpeedMultiplier = 0.1f + noteFloat * 0.1f;
+        }
     }
 }
