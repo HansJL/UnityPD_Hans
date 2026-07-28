@@ -523,7 +523,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MidiMapping
   player: {fileID: 1649715423}
   midiInput: {fileID: 2000485793}
-  collisionPdReceiver: sahOn
+  collisionPdReceiver: collision
   padMappings:
   - name: Pad 1 (Jump)
     midiChannel: 0
