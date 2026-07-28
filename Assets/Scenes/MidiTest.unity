@@ -523,6 +523,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MidiMapping
   player: {fileID: 1649715423}
   midiInput: {fileID: 2000485793}
+  collisionPdReceiver: sahOn
   padMappings:
   - name: Pad 1 (Jump)
     midiChannel: 0
@@ -532,7 +533,7 @@ MonoBehaviour:
   - name: Pad 2 (High Jump)
     midiChannel: 1
     midiNote: 69
-    jumpForce: 3
+    jumpForce: 20
     pdReceiverName: collision
   knobMappings:
   - name: Knob 1 (Speed)
@@ -558,12 +559,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMove_B
   globalSpeedMultiplier: 1
   baseMoveSpeed: 5
-  leftBoundary: -8.07
+  leftBoundary: -8.68
   rightBoundary: 5
-  defaultJumpForce: 10
+  defaultJumpForce: 15
   allowSpaceJump: 1
   baseAnimationSpeed: 1
-  collisionPdReceiver: collision
 --- !u!1001 &1955232470
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -572,6 +572,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 199324335077453389}
     m_Modifications:
+    - target: {fileID: 220414235186876790, guid: b6caff6363e9de942b32fec3e41cf7ae, type: 3}
+      propertyPath: m_GravityScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1711128084524789983, guid: b6caff6363e9de942b32fec3e41cf7ae, type: 3}
       propertyPath: leftBoundary
       value: -7.14
@@ -697,11 +701,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MidiMapping
   player: {fileID: 199324335077453398}
   midiInput: {fileID: 2000485793}
+  collisionPdReceiver: sahOn
   padMappings:
   - name: 
     midiChannel: 1
     midiNote: 60
-    jumpForce: 3
+    jumpForce: 20
     pdReceiverName: 
   - name: 
     midiChannel: 0
@@ -737,12 +742,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMove_B
   globalSpeedMultiplier: 1
   baseMoveSpeed: 5
-  leftBoundary: -5
+  leftBoundary: -9.01
   rightBoundary: 5
   defaultJumpForce: 10
   allowSpaceJump: 1
   baseAnimationSpeed: 1
-  collisionPdReceiver: sahOn
 --- !u!1001 &268870038772448861
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -961,6 +965,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 220414235186876790, guid: b6caff6363e9de942b32fec3e41cf7ae, type: 3}
+      propertyPath: m_GravityScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1711128084524789983, guid: b6caff6363e9de942b32fec3e41cf7ae, type: 3}
       propertyPath: m_Enabled
       value: 0

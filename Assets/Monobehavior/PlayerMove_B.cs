@@ -18,20 +18,19 @@ public class PlayerMove_B : MonoBehaviour
     [Header("Animation Settings")]
     [SerializeField] private float baseAnimationSpeed = 1f;
 
-    [Header("Pure Data Settings")]
-    [SerializeField] private string collisionPdReceiver = "sahOn";
-
-    // Komponenten & Instanzen
+    // Komponenten
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
-    private LibPdInstance pdInstance;
 
     // Interne Statusvariablen
     private int direction = 1;
     private float restY;
     private bool jumpRequested;
     private float currentJumpForce;
+
+    // Event für das Midi/PD Mapping Script (bei Kollision)
+    public System.Action OnSphereCollision;
 
     private void Awake()
     {
@@ -49,27 +48,23 @@ public class PlayerMove_B : MonoBehaviour
     {
         restY = transform.position.y;
         currentJumpForce = defaultJumpForce;
-
-        // PD Instanz direkt im Player suchen
-        pdInstance = FindFirstObjectByType<LibPdInstance>();
-        if (pdInstance == null)
-        {
-            Debug.LogWarning("[PlayerMove_B] LibPdInstance wurde in der Szene nicht gefunden.");
-        }
     }
 
     private void Update()
     {
+        // Live-Anpassung der Animationsgeschwindigkeit
         if (animator != null)
         {
             animator.speed = baseAnimationSpeed * globalSpeedMultiplier;
         }
 
+        // Tastatur-Sprung
         if (allowSpaceJump && (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")))
         {
             PerformJump(defaultJumpForce);
         }
 
+        // Grenzen prüfen und umkehren
         if (transform.position.x >= rightBoundary && direction == 1)
         {
             direction = -1;
@@ -86,16 +81,19 @@ public class PlayerMove_B : MonoBehaviour
     {
         if (rb == null) return;
 
+        // 1. Bewegung
         float currentSpeed = baseMoveSpeed * globalSpeedMultiplier;
         Vector2 movement = new Vector2(direction * currentSpeed * Time.fixedDeltaTime, 0f);
         rb.position += movement;
 
+        // 2. Sprung verarbeiten
         if (jumpRequested)
         {
             jumpRequested = false;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, currentJumpForce);
         }
 
+        // Boden-Grenze auf Höhe von restY halten
         if (rb.linearVelocity.y <= 0f && rb.position.y < restY)
         {
             rb.position = new Vector2(rb.position.x, restY);
@@ -103,19 +101,28 @@ public class PlayerMove_B : MonoBehaviour
         }
     }
 
-    // --- PUBLIC METHODS (Für MidiMapping oder andere Skripte) ---
+    // --- PUBLIC METHODS (Werden von MidiMapping.cs aufgerufen) ---
 
+    /// <summary>
+    /// Führt einen Sprung aus. Kann mit individueller Sprungkraft aufgerufen werden.
+    /// </summary>
     public void PerformJump(float force)
     {
         currentJumpForce = force;
         jumpRequested = true;
     }
 
+    /// <summary>
+    /// Überladung ohne Parameter führt den Sprung mit Standardkraft aus.
+    /// </summary>
     public void PerformJump()
     {
         PerformJump(defaultJumpForce);
     }
 
+    /// <summary>
+    /// Setzt den Geschwindigkeitsmultiplikator direkt.
+    /// </summary>
     public void SetGlobalSpeed(float multiplier)
     {
         globalSpeedMultiplier = Mathf.Clamp(multiplier, 0.1f, 3f);
@@ -125,14 +132,18 @@ public class PlayerMove_B : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log("Sphere getroffen");
         if (collision.gameObject.CompareTag("Sphere"))
         {
-            // Sendet direkt an Pure Data, wenn eine Kollision stattfindet
-            if (pdInstance != null && !string.IsNullOrEmpty(collisionPdReceiver))
-            {
-                pdInstance.SendBang(collisionPdReceiver);
-                Debug.Log($"[PlayerMove_B] Kollisions-Bang an PD-Receiver '{collisionPdReceiver}' gesendet.");
-            }
+            // Richtung umkehren
+            direction *= -1;
+
+            // Sprite spiegeln
+            if (spriteRenderer != null)
+                spriteRenderer.flipX = direction < 0;
+
+            // Meldet das Kollisionsevent an MidiMapping/PD weiter
+            OnSphereCollision?.Invoke();
         }
     }
 
@@ -146,3 +157,4 @@ public class PlayerMove_B : MonoBehaviour
         Gizmos.DrawLine(leftTarget, rightTarget);
     }
 }
+

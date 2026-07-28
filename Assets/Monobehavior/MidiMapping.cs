@@ -8,6 +8,9 @@ public class MidiMapping : MonoBehaviour
     [SerializeField] private PlayerMove_B player;
     [SerializeField] private MidiInput midiInput;
 
+    [Header("Pure Data Settings")]
+    [SerializeField] private string collisionPdReceiver = "sahOn";
+
     // --- STRUCTS FÜR DEN INSPECTOR ---
 
     [System.Serializable]
@@ -86,6 +89,11 @@ public class MidiMapping : MonoBehaviour
             midiInput.onNoteOn += onNoteOnCallback;
             midiInput.onControlChange += onControlChangeCallback;
         }
+
+        if (player != null)
+        {
+            player.OnSphereCollision += HandlePlayerCollision;
+        }
     }
 
     private void OnDisable()
@@ -94,6 +102,11 @@ public class MidiMapping : MonoBehaviour
         {
             midiInput.onNoteOn -= onNoteOnCallback;
             midiInput.onControlChange -= onControlChangeCallback;
+        }
+
+        if (player != null)
+        {
+            player.OnSphereCollision -= HandlePlayerCollision;
         }
     }
 
@@ -117,6 +130,7 @@ public class MidiMapping : MonoBehaviour
             Debug.Log($"[MIDI NOTE] Channel: {channel} | Note: {note} | Velocity: {velocity}");
         }
 
+        // SCHRITT 1: Prüfen, ob die gedrückte Note zu EINEM DER PADS gehört
         PadMapping matchedPad = default;
         bool isPadNote = false;
 
@@ -130,12 +144,14 @@ public class MidiMapping : MonoBehaviour
             }
         }
 
+        // FALL A: Es ist ein PAD -> Nur Sprung ausführen, NIEMALS Speed verändern!
         if (isPadNote)
         {
             TriggerPadAction(matchedPad);
-            return;
+            return; // Beendet die Methode hier sofort!
         }
 
+        // FALL B: Es ist KEIN Pad, sondern eine Tastatur-Taste -> Speed anpassen
         if (enableKeyboardSpeedControl && channel == speedMidiChannel)
         {
             float noteValue = (float)note - baseNoteOffset;
@@ -189,4 +205,14 @@ public class MidiMapping : MonoBehaviour
             pdInstance.SendBang(pad.pdReceiverName);
         }
     }
+
+    private void HandlePlayerCollision()
+    {
+        if (pdInstance != null && !string.IsNullOrEmpty(collisionPdReceiver))
+        {
+            pdInstance.SendBang(collisionPdReceiver);
+            Debug.Log($"[MidiMapping] Kollisions-Bang an PD-Receiver '{collisionPdReceiver}' gesendet.");
+        }
+    }
 }
+
