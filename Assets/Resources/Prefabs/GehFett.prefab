@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2809549853839868098}
   - component: {fileID: 2324841078943333169}
   - component: {fileID: -9026040035043892639}
+  - component: {fileID: -2751165319418985014}
   m_Layer: 0
   m_Name: GehFett
   m_TagString: Player
@@ -136,6 +137,19 @@ MonoBehaviour:
   midiInput: {fileID: 0}
   jumpForce: 10
   jumpWithSpace: 1
+--- !u!114 &-2751165319418985014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3204032555341541656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a58742fe4706d473fafd311c1080331f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PanningPosition
+  pdInstance: {fileID: 5265601319347916241}
 --- !u!1 &5363746008978634633
 GameObject:
   m_ObjectHideFlags: 0
