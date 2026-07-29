@@ -4,7 +4,8 @@ using System;
 public class CollisionPD : MonoBehaviour
 {
     // Referenz auf die Pure Data Schnittstelle (LibPD)
-    private LibPdInstance pdInstance;
+    [Header("Pure Data")]
+    [SerializeField] private LibPdInstance pdInstance;
 
     [Header("Receiver")] 
     [SerializeField] private string ReceiverPdGo = "sahOn";
@@ -71,15 +72,11 @@ public class CollisionPD : MonoBehaviour
     // Start wird vor dem ersten Frame aufgerufen
     void Start()
     {
-        // Merkt sich die initiale Y-Position der Spielfigur als "Boden"
         restY = transform.position.y;
-        
-        // Sucht automatisch das LibPdInstance-Objekt in der Unity-Szene
-        pdInstance = FindFirstObjectByType<LibPdInstance>();
-        if (pdInstance == null)
-        {
-            Debug.LogError("LibPdInstance konnte in der Szene nicht gefunden werden!");
-        }
+    if (pdInstance == null)
+        pdInstance = GetComponentInChildren<LibPdInstance>();
+    if (pdInstance == null)
+        Debug.LogError($"{name}: LibPdInstance not assigned and not found on prefab!");
     }
 
     // Update wird in jedem Frame aufgerufen (für Input-Abfragen)
