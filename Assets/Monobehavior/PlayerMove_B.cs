@@ -132,16 +132,8 @@ public class PlayerMove_B : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Sphere getroffen");
         if (collision.gameObject.CompareTag("Sphere"))
         {
-            // Richtung umkehren
-            direction *= -1;
-
-            // Sprite spiegeln
-            if (spriteRenderer != null)
-                spriteRenderer.flipX = direction < 0;
-
             // Meldet das Kollisionsevent an MidiMapping/PD weiter
             OnSphereCollision?.Invoke();
         }

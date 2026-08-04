@@ -128,10 +128,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
-      propertyPath: maxSpeed
-      value: 25.9
-      objectReference: {fileID: 0}
-    - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       propertyPath: midiInput
       value: 
       objectReference: {fileID: 2000485793}
@@ -152,28 +148,8 @@ PrefabInstance:
       value: 5.95
       objectReference: {fileID: 0}
     - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
-      propertyPath: targetPadNote
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
-      propertyPath: padMidiChannel
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       propertyPath: ReceiverFromKey
       value: sahOn
-      objectReference: {fileID: 0}
-    - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
-      propertyPath: targetCcControl
-      value: 22
-      objectReference: {fileID: 0}
-    - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
-      propertyPath: targetLowKeyNote
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
-      propertyPath: targetHighKeyNote
-      value: 84
       objectReference: {fileID: 0}
     - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       propertyPath: globalSpeedMultiplier
@@ -246,6 +222,10 @@ PrefabInstance:
     - target: {fileID: 3204032555341541656, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       propertyPath: m_Name
       value: GehFett (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3204032555341541656, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3204032555341541656, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       propertyPath: m_TagString
@@ -344,7 +324,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 14.08, y: 18.4}
   m_EdgeRadius: 0
---- !u!114 &392379386
+--- !u!114 &392379391
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -356,13 +336,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ea89cfa7b71f97449eb0f25f97e9b17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MidiMapping
-  player: {fileID: 392379387}
+  player: {fileID: 392379392}
   midiInput: {fileID: 2000485793}
   collisionPdReceiver: sahOn
   padMappings:
   - name: Pad 1 (Jump)
     midiChannel: 0
-    midiNote: 60
+    midiNote: 40
     jumpForce: 10
     pdReceiverName: sahOn
   - name: Pad 2 (High Jump)
@@ -380,7 +360,7 @@ MonoBehaviour:
   baseNoteOffset: 48
   enableKeyboardSpeedControl: 1
   showDebugLogs: 1
---- !u!114 &392379387
+--- !u!114 &392379392
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -394,7 +374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMove_B
   globalSpeedMultiplier: 1
   baseMoveSpeed: 5
-  leftBoundary: -5
+  leftBoundary: -7.01
   rightBoundary: 5
   defaultJumpForce: 10
   allowSpaceJump: 1
@@ -494,9 +474,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7355654965326403704, guid: 779f7ebd129d2144b9ff408350e3958f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1691767760}
-    - targetCorrespondingSourceObject: {fileID: 7355654965326403704, guid: 779f7ebd129d2144b9ff408350e3958f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1691767764}
   m_SourcePrefab: {fileID: 100100000, guid: 779f7ebd129d2144b9ff408350e3958f, type: 3}
 --- !u!1 &442846861
 GameObject:
@@ -1002,25 +979,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1691767764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1691767759}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e16e454358cf294e8283d1ff8af1028, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PdScaleReceiver
-  pdInstance: {fileID: 1142905411}
-  receiverName: Scale_to_Unity2
-  minInput: 0.42
-  maxInput: 9.07
-  minYScale: 4
-  maxYScale: 38
-  smoothSpeed: 10
 --- !u!1001 &1818207516
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1029,14 +987,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
-      propertyPath: padNote
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
-      propertyPath: maxSpeed
-      value: 11.46
-      objectReference: {fileID: 0}
     - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1058,40 +1008,8 @@ PrefabInstance:
       value: 5.95
       objectReference: {fileID: 0}
     - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
-      propertyPath: targetPadNote
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
-      propertyPath: padMidiChannel
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
-      propertyPath: targetCcControl
-      value: 22
-      objectReference: {fileID: 0}
-    - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
-      propertyPath: targetLowKeyNote
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
-      propertyPath: targetHighKeyNote
-      value: 84
-      objectReference: {fileID: 0}
-    - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
-      propertyPath: targetMidiChannel
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       propertyPath: globalSpeedMultiplier
       value: 0.65
-      objectReference: {fileID: 0}
-    - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
-      propertyPath: speedChangeSmoothness
-      value: 3.59
-      objectReference: {fileID: 0}
-    - target: {fileID: -2751165319418985014, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 445819547489660997, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       propertyPath: m_LocalScale.x
@@ -1173,10 +1091,10 @@ PrefabInstance:
       addedObject: {fileID: 392379385}
     - targetCorrespondingSourceObject: {fileID: 3204032555341541656, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 392379387}
+      addedObject: {fileID: 392379392}
     - targetCorrespondingSourceObject: {fileID: 3204032555341541656, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 392379386}
+      addedObject: {fileID: 392379391}
   m_SourcePrefab: {fileID: 100100000, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
 --- !u!114 &2000485793 stripped
 MonoBehaviour:
@@ -1345,9 +1263,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7355654965326403704, guid: 779f7ebd129d2144b9ff408350e3958f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 515042133122050686}
-    - targetCorrespondingSourceObject: {fileID: 7355654965326403704, guid: 779f7ebd129d2144b9ff408350e3958f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 515042133122050690}
   m_SourcePrefab: {fileID: 100100000, guid: 779f7ebd129d2144b9ff408350e3958f, type: 3}
 --- !u!1 &515042133122050658 stripped
 GameObject:
@@ -1400,25 +1315,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &515042133122050690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 515042133122050658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e16e454358cf294e8283d1ff8af1028, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PdScaleReceiver
-  pdInstance: {fileID: 1142905411}
-  receiverName: Scale_to_Unity
-  minInput: 0.14
-  maxInput: 8.8
-  minYScale: 2.64
-  maxYScale: 20.54
-  smoothSpeed: 10
 --- !u!1001 &5006168734178208963
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1478,10 +1374,6 @@ PrefabInstance:
     - target: {fileID: 8219458932322475084, guid: 8aca8ba755b3f027bacfc48874f78bf9, type: 3}
       propertyPath: patch
       value: 
-      objectReference: {fileID: 1142905411}
-    - target: {fileID: 8219458932322475084, guid: 8aca8ba755b3f027bacfc48874f78bf9, type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8219458932322475084, guid: 8aca8ba755b3f027bacfc48874f78bf9, type: 3}
       propertyPath: midiInput
