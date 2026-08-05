@@ -131,10 +131,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CollisionPD
   pdInstance: {fileID: 5265601319347916241}
   ReceiverPdGo: sahOn
-  ReceiverFromKey: sahOn
-  midichannel: 9
-  noteMidi: 40
+  globalSpeedMultiplier: 1
+  speedChangeSmoothness: 3
+  baseMoveSpeed: 5
+  leftBoundary: -5
+  rightBoundary: 5
+  baseAnimationSpeed: 1
   midiInput: {fileID: 0}
+  ReceiverFromKey: sahOn
+  padMidiChannel: 1
+  targetPadNote: 36
+  keyMidiChannel: 1
+  targetLowKeyNote: 48
+  targetHighKeyNote: 72
+  knobMidiChannel: 1
+  targetCcControl: 1
+  minSpeed: 0.2
+  maxSpeed: 3
+  lastReceivedChannel: 0
+  lastReceivedNote: 0
+  lastReceivedVelocity: 0
+  lastReceivedCC: 0
+  lastReceivedCCValue: 0
   jumpForce: 10
   jumpWithSpace: 1
 --- !u!114 &-2751165319418985014
@@ -150,6 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PanningPosition
   pdInstance: {fileID: 5265601319347916241}
+  PanningReceiver: panning
 --- !u!1 &5363746008978634633
 GameObject:
   m_ObjectHideFlags: 0

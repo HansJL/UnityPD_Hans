@@ -28,16 +28,19 @@ void Start()
         try
         {
             // Versuche das Symbol in LibPd zu binden
+            // Try to bind the symbol in LibPd
             pdInstance.Bind(receiverName);
             isBound = true;
         }
         catch (System.ArgumentException)
         {
             // Das Symbol ist bereits gebunden (z. B. von einer anderen Instanz)
+            // The symbol is already bound (e.g. by another instance)
             Debug.LogWarning($"[PdScaleReceiver] '{receiverName}' war bereits an LibPdInstance gebunden.");
         }
 
         // Das UnityEvent hören wir auf jeden Fall ab
+        // Listen to the UnityEvent regardless
         pdInstance.pureDataEvents.Float.AddListener(OnReceiveFloat);
     }
     else
@@ -51,6 +54,7 @@ void OnDestroy()
     if (pdInstance != null)
     {
         // Nur entbinden, wenn wir es auch erfolgreich gebunden hatten
+        // Only unbind if we successfully bound it
         if (isBound)
         {
             pdInstance.UnBind(receiverName);

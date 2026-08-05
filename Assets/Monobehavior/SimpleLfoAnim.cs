@@ -1,14 +1,12 @@
 using UnityEngine;
 
 public class SimpleLfoAnim : MonoBehaviour
-{ void Start()
-{
-    
-}
+{ 
+    [SerializeField] string lfoName;
 
-void Update()
-{
-    float value = GlobalLfos.Instance.Get("slowSine");
-    transform.localPosition = new Vector3(0, value, 0);
-}
+    void Update()
+    {
+        float value = GlobalLfos.Instance.Get(lfoName);
+        transform.localPosition = new Vector3(0, value, 0);
+    }
 }
