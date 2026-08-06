@@ -1,4 +1,4 @@
-#N canvas 5030 328 2400 1236 12;
+#N canvas 4804 292 2400 1236 12;
 #X obj 835 622 dac~;
 #X obj 583 376 samphold~ 0.5;
 #X obj 580 318 phasor~ 11;
@@ -232,7 +232,6 @@
 #X connect 17 0 18 0;
 #X connect 18 0 16 0;
 #X connect 19 0 56 0;
-#X connect 20 0 15 0;
 #X connect 20 0 29 0;
 #X connect 21 0 19 0;
 #X connect 21 0 28 0;

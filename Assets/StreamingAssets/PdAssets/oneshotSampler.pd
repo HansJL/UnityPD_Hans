@@ -1,7 +1,9 @@
-#N canvas -14 20 3440 1337 12;
+#N canvas 0 20 1920 1086 12;
 #N canvas 0 0 450 300 (subpatch) 0;
-#X array samplerB 50525 float 2;
-#X coords 0 1 50525 -1 200 140 1 0 0;
+#X array samplerB 21231 float 2;
+#A color 0;
+#A width 2;
+#X coords 0 1 21231 -1 200 140 1 0 0;
 #X restore 446 237 graph;
 #X obj 47 152 soundfiler;
 #X floatatom 48 326 5 0 0 0 - - - 0;
@@ -50,7 +52,7 @@
 #X obj 774 268 t a b;
 #X floatatom 776 238 5 0 0 0 - - - 0;
 #X msg 775 321 set \$1;
-#X msg 779 378 0.23622;
+#X msg 779 378 -0.929134;
 #X text 777 354 play pitch;
 #X msg 263 645 15;
 #X obj 373 118 loadbang;
@@ -71,6 +73,7 @@
 #X msg 97 422 0;
 #X obj 46 376 t f b;
 #X text 527 67 trigger sound here;
+#X text 402 30 2 = normal pitch kein Reverse play;
 #X connect 1 0 19 1;
 #X connect 1 0 33 0;
 #X connect 2 0 9 0;
