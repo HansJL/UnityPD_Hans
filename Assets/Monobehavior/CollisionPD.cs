@@ -18,8 +18,8 @@ public class CollisionPD : MonoBehaviour
 
     [Header("Movement Settings")]
     [SerializeField] private float baseMoveSpeed = 5f;
-    [SerializeField] private float leftBoundary = -5f;
-    [SerializeField] private float rightBoundary = 5f;
+    public float leftBoundary = -5f; //für RM
+    public float rightBoundary = 5f; //für RM
 
     [Header("Animation Settings")]
     [SerializeField] private float baseAnimationSpeed = 1f;
@@ -187,20 +187,22 @@ public class CollisionPD : MonoBehaviour
         targetSpeedMultiplier = Mathf.Clamp(multiplier, minSpeed, maxSpeed);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+   private void OnCollisionEnter2D(Collision2D collision)
+{
+    if (collision.gameObject.CompareTag("Sphere"))
     {
-        if (collision.gameObject.CompareTag("Sphere"))
-        {
-            FlipDirection(direction * -1);
-            OnSphereCollision?.Invoke();
+        FlipDirection(direction * -1);
+        OnSphereCollision?.Invoke();
 
-            if (pdInstance != null)
-            {
-                pdInstance.SendBang(ReceiverPdGo); 
-                Debug.Log("[Unity -> PD] Impuls für sahOn gesendet.");
-            }
+        if (pdInstance != null)
+        {
+            // Sende den Bang direkt an den Receiver-Namen (z. B. "sahOn")
+            pdInstance.SendBang(ReceiverPdGo); 
+            
+            Debug.Log($"[Unity -> PD] Impuls für '{ReceiverPdGo}' auf {gameObject.name} gesendet.");
         }
     }
+}
 
     private void FlipDirection(int newDirection)
     {

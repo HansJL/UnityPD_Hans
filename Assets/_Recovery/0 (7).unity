@@ -996,7 +996,6 @@ GameObject:
   m_Component:
   - component: {fileID: 567740526}
   - component: {fileID: 567740525}
-  - component: {fileID: 567740528}
   - component: {fileID: 567740524}
   - component: {fileID: 567740527}
   m_Layer: 0
@@ -5831,7 +5830,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 567740522}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a40dc330889b6c24891b04b5901e5c97, type: 3}
   m_Name: 
@@ -5844,34 +5843,6 @@ MonoBehaviour:
   waveFrequency: 2
   waveSpeed: 1
   waveformShape: 0
---- !u!114 &567740528
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 567740522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43ce41662be51b54fbef614c7ec2a231, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CtrWaveMulti
-  targetSpriteRenderer: {fileID: 885126311}
-  waveDirection: 0
-  colorMode: 1
-  colorGlitchIntensity: 0.5
-  rgbSplitIntensity: 0.8
-  colorChangeSpeed: 3
-  resolutionX: 30
-  resolutionY: 30
-  particleSize: 0.1
-  waveAmplitude: 1.5
-  waveFrequency: 2
-  waveSpeed: 1
-  waveformShape: 0
-  glitchAmount: 0.3
-  digitalQuantize: 8
-  noiseSpeed: 5
 --- !u!1 &805701429
 GameObject:
   m_ObjectHideFlags: 0
@@ -6181,10 +6152,6 @@ PrefabInstance:
     - target: {fileID: 2809549853839868098, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       propertyPath: m_Color.b
       value: 0.16470589
-      objectReference: {fileID: 0}
-    - target: {fileID: 2809549853839868098, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3204032555341541656, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       propertyPath: m_Name
