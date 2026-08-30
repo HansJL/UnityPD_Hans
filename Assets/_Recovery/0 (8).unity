@@ -5914,7 +5914,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       propertyPath: baseMoveSpeed
-      value: 7.1
+      value: 4.59
       objectReference: {fileID: 0}
     - target: {fileID: -9026040035043892639, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       propertyPath: rightBoundary
@@ -5974,11 +5974,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 445819547489660997, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.02168
+      value: -2.96
       objectReference: {fileID: 0}
     - target: {fileID: 445819547489660997, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.3
+      value: -5.86
       objectReference: {fileID: 0}
     - target: {fileID: 445819547489660997, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6061,7 +6061,7 @@ PrefabInstance:
       addedObject: {fileID: 683690142}
     - targetCorrespondingSourceObject: {fileID: 3204032555341541656, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       insertIndex: 5
-      addedObject: {fileID: 683690143}
+      addedObject: {fileID: 683690149}
     - targetCorrespondingSourceObject: {fileID: 3204032555341541656, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 683690141}
@@ -6331,7 +6331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60524ce72a89f9d488f3bd35a9689e23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CollisionPdTrack
---- !u!114 &683690143
+--- !u!114 &683690149
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -88,7 +88,13 @@ public class CollisionPD : MonoBehaviour
     }
 
     void OnEnable()
+    
+ 
+    
     {
+        // Event abonnieren: Wenn PD einen neuen Wert schickt, wird SetGlobalSpeed aufgerufen
+        PdSpeedReceiver.OnSpeedChanged += SetGlobalSpeed;
+        
         if (midiInput != null)
         {
             midiInput.onControlChange += OnControlChangeCallback;
@@ -103,6 +109,9 @@ public class CollisionPD : MonoBehaviour
 
     void OnDisable()
     {
+        // NEU: PD-Event abmelden
+        PdSpeedReceiver.OnSpeedChanged -= SetGlobalSpeed;
+        
         if (midiInput != null)
         {
             midiInput.onControlChange -= OnControlChangeCallback;
