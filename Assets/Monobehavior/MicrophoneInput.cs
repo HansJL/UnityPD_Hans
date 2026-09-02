@@ -7,11 +7,12 @@ using UnityEngine;
 /// way a looping AudioClip does.
 /// </summary>
 [RequireComponent(typeof(AudioSource))]
+[DefaultExecutionOrder(-100)]
 public class MicrophoneInput : MonoBehaviour
 {
     [Header("Microphone Settings")]
-    [Tooltip("Leave empty to use the system default microphone.")]
-    [SerializeField] private string deviceName;
+    [Tooltip("Exact or partial device name. When empty, the first device is used.")]
+    [SerializeField] private string deviceName = "Mic/Inst/Line In";
 
     [Tooltip("Ring buffer length in seconds passed to Microphone.Start.")]
     [SerializeField] [Min(1)] private int bufferLengthSec = 1;
@@ -24,6 +25,10 @@ public class MicrophoneInput : MonoBehaviour
     private AudioSource audioSource;
     private string activeDevice;
     private bool isRecording;
+    private AudioClip micClip;
+    private float[] latestMicSamples;
+    private int latestMicSampleCount;
+    private volatile bool hasLatestMicSamples;
 
     void Awake()
     {
@@ -59,6 +64,7 @@ public class MicrophoneInput : MonoBehaviour
 
         isRecording = false;
         activeDevice = null;
+        hasLatestMicSamples = false;
     }
 
     private IEnumerator StartMicrophoneRoutine()
@@ -86,8 +92,8 @@ public class MicrophoneInput : MonoBehaviour
         }
 
         activeDevice = ResolveDeviceName();
-        int sampleRate = AudioSettings.outputSampleRate;
-        AudioClip micClip = Microphone.Start(activeDevice, true, bufferLengthSec, sampleRate);
+        int sampleRate = ResolveSampleRate(activeDevice);
+        micClip = Microphone.Start(activeDevice, true, bufferLengthSec, sampleRate);
 
         if (micClip == null)
         {
@@ -95,8 +101,17 @@ public class MicrophoneInput : MonoBehaviour
             yield break;
         }
 
+        int waitFrames = 0;
         while (Microphone.GetPosition(activeDevice) <= 0)
+        {
+            waitFrames++;
+            if (waitFrames > 600)
+            {
+                Debug.LogError($"[{nameof(MicrophoneInput)}] Microphone never reported samples on {gameObject.name}.");
+                yield break;
+            }
             yield return null;
+        }
 
         audioSource.clip = micClip;
         audioSource.loop = true;
@@ -104,20 +119,91 @@ public class MicrophoneInput : MonoBehaviour
         audioSource.mute = false;
         audioSource.volume = volume;
 
+        isRecording = true;
+
         if (!audioSource.isPlaying)
             audioSource.Play();
+    }
 
-        isRecording = true;
+    void Update()
+    {
+        if (isRecording && micClip != null && !string.IsNullOrEmpty(activeDevice))
+            CopyLatestMicSamples();
+    }
+
+    private void CopyLatestMicSamples()
+    {
+        int pos = Microphone.GetPosition(activeDevice);
+        if (pos <= 0)
+            return;
+
+        int count = Mathf.Min(4096, pos);
+        if (latestMicSamples == null || latestMicSamples.Length < count)
+            latestMicSamples = new float[count];
+
+        micClip.GetData(latestMicSamples, pos - count);
+        latestMicSampleCount = count;
+        hasLatestMicSamples = true;
+    }
+
+    void OnAudioFilterRead(float[] data, int channels)
+    {
+        if (!isRecording || !hasLatestMicSamples || latestMicSamples == null || latestMicSampleCount <= 0)
+            return;
+
+        int frames = data.Length / channels;
+        int srcStart = Mathf.Max(0, latestMicSampleCount - frames);
+
+        for (int i = 0; i < frames; i++)
+        {
+            int srcIndex = srcStart + i;
+            float sample = srcIndex < latestMicSampleCount ? latestMicSamples[srcIndex] * volume : 0f;
+
+            for (int ch = 0; ch < channels; ch++)
+                data[i * channels + ch] = sample;
+        }
     }
 
     private string ResolveDeviceName()
     {
-        if (!string.IsNullOrEmpty(deviceName) && System.Array.IndexOf(Microphone.devices, deviceName) >= 0)
-            return deviceName;
-
         if (!string.IsNullOrEmpty(deviceName))
-            Debug.LogWarning($"[{nameof(MicrophoneInput)}] Device '{deviceName}' not found. Using default.");
+        {
+            if (System.Array.IndexOf(Microphone.devices, deviceName) >= 0)
+                return deviceName;
+
+            foreach (string device in Microphone.devices)
+            {
+                if (device.IndexOf(deviceName, System.StringComparison.OrdinalIgnoreCase) >= 0)
+                    return device;
+            }
+
+            Debug.LogWarning($"[{nameof(MicrophoneInput)}] Device '{deviceName}' not found. Available: {string.Join(", ", Microphone.devices)}. Using first device.");
+        }
 
         return Microphone.devices[0];
+    }
+
+    private int ResolveSampleRate(string device)
+    {
+        Microphone.GetDeviceCaps(device, out int minFreq, out int maxFreq);
+        int preferred = AudioSettings.outputSampleRate;
+        int chosen = preferred;
+
+        if (maxFreq > 0)
+        {
+            if (preferred < minFreq || preferred > maxFreq)
+            {
+                chosen = maxFreq >= 44100 ? 44100 : maxFreq;
+                if (chosen < minFreq)
+                    chosen = minFreq;
+            }
+        }
+
+        if (chosen != preferred)
+        {
+            Debug.LogWarning($"[{nameof(MicrophoneInput)}] Device '{device}' supports {minFreq}-{maxFreq} Hz. Using {chosen} Hz instead of Unity output rate {preferred} Hz.");
+        }
+
+        return chosen;
     }
 }
