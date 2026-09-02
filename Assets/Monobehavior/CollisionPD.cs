@@ -88,9 +88,6 @@ public class CollisionPD : MonoBehaviour
     }
 
     void OnEnable()
-    
- 
-    
     {
         // Event abonnieren: Wenn PD einen neuen Wert schickt, wird SetGlobalSpeed aufgerufen
         PdSpeedReceiver.OnSpeedChanged += SetGlobalSpeed;
@@ -198,21 +195,22 @@ public class CollisionPD : MonoBehaviour
     }
 
    private void OnCollisionEnter2D(Collision2D collision)
-{
-    if (collision.gameObject.CompareTag("Sphere"))
     {
-        FlipDirection(direction * -1);
-        OnSphereCollision?.Invoke();
-
-        if (pdInstance != null)
+        if (collision.gameObject.CompareTag("Sphere"))
         {
-            // Sende den Bang direkt an den Receiver-Namen (z. B. "sahOn")
-            pdInstance.SendBang(ReceiverPdGo); 
-            
-            Debug.Log($"[Unity -> PD] Impuls für '{ReceiverPdGo}' auf {gameObject.name} gesendet.");
+            // Debug.Log($"[CollisionPD] Sphere collision detected on {gameObject.name}");
+            FlipDirection(direction * -1);
+            OnSphereCollision?.Invoke();
+
+            if (pdInstance != null)
+            {
+                // Sende den Bang direkt an den Receiver-Namen (z. B. "sahOn")
+                pdInstance.SendBang(ReceiverPdGo); 
+                
+                Debug.Log($"[Unity -> PD] Impuls für '{ReceiverPdGo}' auf {gameObject.name} gesendet.");
+            }
         }
     }
-}
 
     private void FlipDirection(int newDirection)
     {
