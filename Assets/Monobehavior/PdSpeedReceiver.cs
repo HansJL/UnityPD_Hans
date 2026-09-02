@@ -8,6 +8,9 @@ public class PdSpeedReceiver : MonoBehaviour
     [SerializeField] private LibPdInstance pdInstance;
     [SerializeField] private string receiverName = "pitch_tracking";
 
+    [Header("Speed Multiplier")]
+    [SerializeField] private float speedMultiplier = 10.0f;
+
     // Static Event: Schickt den PD-Wert (0.0 bis 1.0) direkt an alle Abonnenten
     public static event Action<float> OnSpeedChanged;
 
@@ -56,12 +59,10 @@ public class PdSpeedReceiver : MonoBehaviour
         
         if (receiver == receiverName)
         {
-            value = Mathf.Sqrt(value) +0.5f;
-            // Sicherstellen, dass der Wert im Bereich 0.0 bis 1.0 liegt
-            float clampedValue = Mathf.Clamp01(value);
-
+            
+            float rawValue = value * speedMultiplier;
             // Wert direkt ohne Verzögerung an CollisionPD abfeuern
-            OnSpeedChanged?.Invoke(clampedValue);
+            OnSpeedChanged?.Invoke(rawValue);
         }
     }
 }
