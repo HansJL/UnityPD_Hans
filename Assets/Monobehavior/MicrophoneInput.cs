@@ -1,13 +1,16 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 /// <summary>
 /// Captures live microphone input and routes it through the AudioSource on this
-/// GameObject. When used with LibPdInstance, the mic signal reaches adc~ the same
-/// way a looping AudioClip does.
+/// GameObject. When used with LibPdInstance, the mic signal reaches adc~ via the
+/// looping mic AudioClip before libpd_process_float runs. With silenceOutput enabled,
+/// this script clears the buffer after LibPdInstance so analysis-only patches do not
+/// monitor the mic to the speakers.
 /// </summary>
 [RequireComponent(typeof(AudioSource))]
-[DefaultExecutionOrder(-100)]
+[DefaultExecutionOrder(100)]
 public class MicrophoneInput : MonoBehaviour
 {
     [Header("Microphone Settings")]
@@ -17,8 +20,8 @@ public class MicrophoneInput : MonoBehaviour
     [Tooltip("Ring buffer length in seconds passed to Microphone.Start.")]
     [SerializeField] [Min(1)] private int bufferLengthSec = 1;
 
-    [Tooltip("Extra playback volume applied to the mic signal.")]
-    [SerializeField] [Range(0f, 2f)] private float volume = 1f;
+    [Tooltip("When enabled, silences speaker output after LibPdInstance processes the buffer.")]
+    [SerializeField] private bool silenceOutput = true;
 
     [SerializeField] private bool startOnAwake = true;
 
@@ -26,9 +29,6 @@ public class MicrophoneInput : MonoBehaviour
     private string activeDevice;
     private bool isRecording;
     private AudioClip micClip;
-    private float[] latestMicSamples;
-    private int latestMicSampleCount;
-    private volatile bool hasLatestMicSamples;
 
     void Awake()
     {
@@ -64,7 +64,6 @@ public class MicrophoneInput : MonoBehaviour
 
         isRecording = false;
         activeDevice = null;
-        hasLatestMicSamples = false;
     }
 
     private IEnumerator StartMicrophoneRoutine()
@@ -116,8 +115,6 @@ public class MicrophoneInput : MonoBehaviour
         audioSource.clip = micClip;
         audioSource.loop = true;
         audioSource.playOnAwake = true;
-        audioSource.mute = false;
-        audioSource.volume = volume;
 
         isRecording = true;
 
@@ -125,55 +122,24 @@ public class MicrophoneInput : MonoBehaviour
             audioSource.Play();
     }
 
-    void Update()
-    {
-        if (isRecording && micClip != null && !string.IsNullOrEmpty(activeDevice))
-            CopyLatestMicSamples();
-    }
-
-    private void CopyLatestMicSamples()
-    {
-        int pos = Microphone.GetPosition(activeDevice);
-        if (pos <= 0)
-            return;
-
-        int count = Mathf.Min(4096, pos);
-        if (latestMicSamples == null || latestMicSamples.Length < count)
-            latestMicSamples = new float[count];
-
-        micClip.GetData(latestMicSamples, pos - count);
-        latestMicSampleCount = count;
-        hasLatestMicSamples = true;
-    }
-
     void OnAudioFilterRead(float[] data, int channels)
     {
-        if (!isRecording || !hasLatestMicSamples || latestMicSamples == null || latestMicSampleCount <= 0)
+        if (!silenceOutput || !isRecording)
             return;
 
-        int frames = data.Length / channels;
-        int srcStart = Mathf.Max(0, latestMicSampleCount - frames);
-
-        for (int i = 0; i < frames; i++)
-        {
-            int srcIndex = srcStart + i;
-            float sample = srcIndex < latestMicSampleCount ? latestMicSamples[srcIndex] * volume : 0f;
-
-            for (int ch = 0; ch < channels; ch++)
-                data[i * channels + ch] = sample;
-        }
+        Array.Clear(data, 0, data.Length);
     }
 
     private string ResolveDeviceName()
     {
         if (!string.IsNullOrEmpty(deviceName))
         {
-            if (System.Array.IndexOf(Microphone.devices, deviceName) >= 0)
+            if (Array.IndexOf(Microphone.devices, deviceName) >= 0)
                 return deviceName;
 
             foreach (string device in Microphone.devices)
             {
-                if (device.IndexOf(deviceName, System.StringComparison.OrdinalIgnoreCase) >= 0)
+                if (device.IndexOf(deviceName, StringComparison.OrdinalIgnoreCase) >= 0)
                     return device;
             }
 
