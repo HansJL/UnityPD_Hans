@@ -52,10 +52,11 @@ public class PdSpeedReceiver : MonoBehaviour
     private void OnReceiveFloat(string receiver, float value)
     {
         // Zeigt JEDE eingehende Nachricht im C#-Receiver an
-        Debug.Log($"<color=green>[C# EMPFANG]</color> Receiver: '{receiver}' | Wert: {value}");
+        // Debug.Log($"<color=green>[C# EMPFANG]</color> Receiver: '{receiver}' | Wert: {value}");
         
         if (receiver == receiverName)
         {
+            value = Mathf.Sqrt(value) +0.5f;
             // Sicherstellen, dass der Wert im Bereich 0.0 bis 1.0 liegt
             float clampedValue = Mathf.Clamp01(value);
 

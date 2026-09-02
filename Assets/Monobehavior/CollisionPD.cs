@@ -193,6 +193,7 @@ public class CollisionPD : MonoBehaviour
 
     public void SetGlobalSpeed(float multiplier)
     {
+        // Debug.Log($"[CollisionPD] SetGlobalSpeed: {multiplier}");
         targetSpeedMultiplier = Mathf.Clamp(multiplier, minSpeed, maxSpeed);
     }
 
