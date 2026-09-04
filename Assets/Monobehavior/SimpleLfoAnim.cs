@@ -7,6 +7,6 @@ public class SimpleLfoAnim : MonoBehaviour
     void Update()
     {
         float value = GlobalLfos.Instance.Get(lfoName);
-        transform.localPosition = new Vector3(0, value, 0);
+        transform.localPosition = new Vector3(value, value, 0);
     }
 }

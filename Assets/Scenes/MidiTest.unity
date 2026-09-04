@@ -291,6 +291,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3204032555341541656, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 865553549}
+    - targetCorrespondingSourceObject: {fileID: 3204032555341541656, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 865553537}
     - targetCorrespondingSourceObject: {fileID: 3204032555341541656, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
@@ -6515,6 +6518,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 14.08, y: 18.4}
   m_EdgeRadius: 0
+--- !u!114 &865553549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865553531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca281bc75ee8f4326903a3dc659fd515, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SimpleLfoAnim
+  lfoName: slowSine
 --- !u!1001 &885126297
 PrefabInstance:
   m_ObjectHideFlags: 0
