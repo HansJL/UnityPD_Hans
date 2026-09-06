@@ -1,6 +1,6 @@
-#N canvas 1789 0 1484 1340 12;
+#N canvas 2771 136 2400 1236 12;
 #X obj 62 37 adc~;
-#N canvas 1963 20 1394 1267 ev 0;
+#N canvas 159 85 1920 1086 ev 0;
 #X obj 54 53 inlet~;
 #X obj 114 569 outlet~;
 #X obj 102 123 vsl 15 128 0 1 0 1 empty empty sl 2 7 0 10 #fcfcfc #000000 #000000 12550 1;
@@ -44,6 +44,10 @@
 #X obj 167 192 loadbang;
 #X msg 167 216 1;
 #X obj 161 255 metro 2;
+#X text 229 69 das Signal multiplieziert sich mit sich selbst.;
+#X text 246 96 Daher kommen Quadratzahlen raus \, die immer positiv sind;
+#X text 277 169 Smooth mit Lowpass Filter lop~;
+#X text 300 218 Control Values;
 #X connect 0 0 1 0;
 #X connect 1 0 3 0;
 #X connect 3 0 2 0;

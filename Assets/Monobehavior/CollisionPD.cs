@@ -10,7 +10,7 @@ public class CollisionPD : MonoBehaviour
     [SerializeField] private string ReceiverPdGo = "sahOn";
 
     [Header("Global Control")]
-    [Range(0.1f, 3f)]
+    [Range(0.1f, 20f)]
     public float globalSpeedMultiplier = 1f;
 
     [Tooltip("Geschwindigkeit, mit der sich das Tempo an den Zielwert annähert")]

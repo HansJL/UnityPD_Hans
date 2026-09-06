@@ -59,10 +59,28 @@ public class PdSpeedReceiver : MonoBehaviour
         
         if (receiver == receiverName)
         {
-            
-            float rawValue = value * speedMultiplier;
+        // 1. Sicheren Bereich garantieren (0 bis 1)
+        float normalized = Mathf.Clamp01(value);
+
+        // 2. Exponentielle Kurve anwenden (z.B. Potenz 3.0f):
+        // Tiefe Töne flachen stark ab (sehr langsam), hohe Töne steigen steil an (sehr schnell)
+        float curvedValue = Mathf.Pow(normalized, 3.0f);
+
+        // 3. Mit dem Multiplikator verrechnen
+        float rawValue = curvedValue * speedMultiplier;            
+
+// value = Mathf.Sqrt(value) +0.5f;
+            // value = (Mathf.Pow(2f, (value + 1f) * 3.0f) - 8f) / 20f;
+           // Debug.Log($"[PdSpeedReceiver] Received Value: {value}");
+
+            // float clampedValue = Mathf.Clamp01(value);
+            //float rawValue = value * speedMultiplier;
             // Wert direkt ohne Verzögerung an CollisionPD abfeuern
             OnSpeedChanged?.Invoke(rawValue);
+
+        // Value zwische 0 und 1
+       // float clampedValue = Mathf.Clamp01(value);
+      //    OnSpeedChanged?.Invoke(rawValue);
         }
     }
 }
