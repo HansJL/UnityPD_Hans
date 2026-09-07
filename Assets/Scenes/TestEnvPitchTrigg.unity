@@ -442,9 +442,9 @@ MonoBehaviour:
   ReceiverPdGo: sahOn
   globalSpeedMultiplier: 1
   speedChangeSmoothness: 3
-  baseMoveSpeed: 5
-  leftBoundary: -5
-  rightBoundary: 5
+  baseMoveSpeed: 13.19
+  leftBoundary: -9.09
+  rightBoundary: 10.74
   baseAnimationSpeed: 1
   midiInput: {fileID: 780184007}
   ReceiverFromKey: sahOnKey
