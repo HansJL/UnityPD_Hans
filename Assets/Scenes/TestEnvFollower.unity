@@ -131,8 +131,7 @@ GameObject:
   - component: {fileID: 471724215}
   - component: {fileID: 471724214}
   - component: {fileID: 471724219}
-  - component: {fileID: 471724218}
-  - component: {fileID: 471724217}
+  - component: {fileID: 471724222}
   - component: {fileID: 471724221}
   - component: {fileID: 471724220}
   m_Layer: 0
@@ -239,59 +238,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &471724217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 471724213}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5693bfc9890ae0a408acb3b289069c79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PdSpeedReceiver
-  pdInstance: {fileID: 0}
-  receiverName: pitch_tracking
-  speedMultiplier: 10
---- !u!114 &471724218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 471724213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37118423ac963be4d9473943ddedb6f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CollisionPD
-  pdInstance: {fileID: 2010615905}
-  ReceiverPdGo: sahOn
-  globalSpeedMultiplier: 4
-  speedChangeSmoothness: 3
-  baseMoveSpeed: 20
-  leftBoundary: -10.48
-  rightBoundary: 11.65
-  baseAnimationSpeed: 1
-  midiInput: {fileID: 780184007}
-  ReceiverFromKey: sahOnKey
-  padMidiChannel: 1
-  targetPadNote: 36
-  keyMidiChannel: 1
-  targetLowKeyNote: 48
-  targetHighKeyNote: 72
-  knobMidiChannel: 1
-  targetCcControl: 1
-  minSpeed: 0.2
-  maxSpeed: 16.76
-  lastReceivedChannel: 0
-  lastReceivedNote: 0
-  lastReceivedVelocity: 0
-  lastReceivedCC: 0
-  lastReceivedCCValue: 0
-  jumpForce: 10
-  jumpWithSpace: 1
 --- !u!82 &471724219
 AudioSource:
   m_ObjectHideFlags: 0
@@ -462,6 +408,44 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 14.08, y: 18.4}
   m_EdgeRadius: 0
+--- !u!114 &471724222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471724213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e6301a6e9401254cb492dcf79cde344, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CollisionEnvPD
+  pdInstance: {fileID: 2010615905}
+  ReceiverPdGo: sahOn
+  globalSpeedMultiplier: 1
+  speedChangeSmoothness: 16.68
+  baseMoveSpeed: 11.97
+  leftBoundary: -12.01
+  rightBoundary: 5
+  baseAnimationSpeed: 1
+  midiInput: {fileID: 780184007}
+  ReceiverFromKey: sahOnKey
+  padMidiChannel: 1
+  targetPadNote: 36
+  keyMidiChannel: 1
+  targetLowKeyNote: 48
+  targetHighKeyNote: 72
+  knobMidiChannel: 1
+  targetCcControl: 1
+  minSpeed: 0.2
+  maxSpeed: 11.55
+  lastReceivedChannel: 0
+  lastReceivedNote: 0
+  lastReceivedVelocity: 0
+  lastReceivedCC: 0
+  lastReceivedCCValue: 0
+  jumpForce: 10
+  jumpWithSpace: 1
 --- !u!1 &642436174
 GameObject:
   m_ObjectHideFlags: 0
@@ -959,7 +943,6 @@ GameObject:
   - component: {fileID: 2010615906}
   - component: {fileID: 2010615905}
   - component: {fileID: 2010615904}
-  - component: {fileID: 2010615908}
   - component: {fileID: 2010615910}
   - component: {fileID: 2010615909}
   m_Layer: 0
@@ -1153,21 +1136,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2010615908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2010615903}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5693bfc9890ae0a408acb3b289069c79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PdSpeedReceiver
-  pdInstance: {fileID: 2010615905}
-  receiverName: envelope_follow
-  speedMultiplier: 10
 --- !u!114 &2010615909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1195,7 +1163,7 @@ MonoBehaviour:
   pdInstance: {fileID: 2010615905}
   receiverName: envelope_follow
   speedMultiplier: 10
-  useSqrtForSensitivity: 0
+  useSqrtForSensitivity: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

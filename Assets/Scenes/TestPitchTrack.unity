@@ -1166,7 +1166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PdSpeedReceiver
   pdInstance: {fileID: 2010615905}
   receiverName: pitch_tracking
-  speedMultiplier: 10
+  speedMultiplier: 22.84
 --- !u!114 &2010615909
 MonoBehaviour:
   m_ObjectHideFlags: 0
