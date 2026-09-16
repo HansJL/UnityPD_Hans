@@ -1,74 +1,62 @@
 using UnityEngine;
 using System;
 
-public class CollisionPD : MonoBehaviour
+public class CollisionPDPitchTrigg : MonoBehaviour
 {
     public event Action OnSphereCollision;
 
     [Header("Pure Data")]
     [SerializeField] private LibPdInstance pdInstance;
     [SerializeField] private string ReceiverPdGo = "sahOn";
+    [SerializeField] private string ReceiverFromKey = "sahOnKey";
 
     [Header("Global Speed Control")]
     [Range(0.1f, 20f)]
     public float globalSpeedMultiplier = 1f;
-    [SerializeField] private float targetSpeedMultiplier = 1f;  // Für fließenden Geschwindigkeitsübergang
+    [SerializeField] private float targetSpeedMultiplier = 1f;
     
-    [Tooltip("Mindestgeschwindigkeit (Wert 0 beim Knob / Tiefste Note)")]
+    [Tooltip("Mindestgeschwindigkeit")]
     [SerializeField] private float minSpeed = 0.2f;
-    [Tooltip("Maximalgeschwindigkeit (Wert 127 beim Knob / Höchste Note)")]
+    [Tooltip("Maximalgeschwindigkeit")]
     [SerializeField] private float maxSpeed = 20.0f;
-    
-    [Tooltip("Geschwindigkeit, mit der sich das Tempo an den Zielwert annähert")]
     [SerializeField] private float speedChangeSmoothness = 3f;
-    [SerializeField] private bool MiceOnOff = true; // Wenn true, wird die Geschwindigkeit manuell über den Inspector eingestellt, sonst über MIDI
+    [SerializeField] private bool MiceOnOff = true;
 
     [Header("Jump")] 
     [SerializeField] private float jumpForce = 10f;       
     [SerializeField] private bool jumpWithSpace = true;    
-    
 
     [Header("Base Movement Settings")]
     [SerializeField] private float baseMoveSpeed = 20f;
-    public float leftBoundary = -11.5f; //für RM
-    public float rightBoundary = 11.5f; //für RM
+    public float leftBoundary = -11.5f;
+    public float rightBoundary = 11.5f;
 
     [Header("Animation Settings")]
     [SerializeField] private float baseAnimationSpeed = 1f;
 
     [Header("MIDI Input Source")] 
     [SerializeField] private MidiInput midiInput;
-    [SerializeField] private string ReceiverFromKey = "sahOnKey";
 
     [Header("Pad Settings (Jump / Bang)")]
-    [Tooltip("MIDI-Kanal speziell für die Pads")]
     [SerializeField] private int padMidiChannel = 1;
-    [Tooltip("Welche Note löst den Sprung/Bang aus?")]
     [SerializeField] private int targetPadNote = 36; 
 
-    [Header("Keyboard Range (Tempo per Tasten)")]
-    [Tooltip("MIDI-Kanal speziell für die Keyboard-Tasten")]
+    [Header("Keyboard Range (Tempo)")]
     [SerializeField] private int keyMidiChannel = 1;
-    [Tooltip("Tiefste Taste = Langsamstes Tempo")]
     [SerializeField] private int targetLowKeyNote = 48; 
-    [Tooltip("Höchste Taste = Schnellstes Tempo")]
     [SerializeField] private int targetHighKeyNote = 72;
 
-    [Header("Knob Settings (Tempo per Drehregler)")]
-    [Tooltip("MIDI-Kanal speziell für die Knobs")]
+    [Header("Knob Settings (Tempo)")]
     [SerializeField] private int knobMidiChannel = 1;
-    [Tooltip("Welches CC-Steuerelement soll das Tempo steuern?")]
     [SerializeField] private int targetCcControl = 1;
-    
-    
-    [Header("Live MIDI Display (Nur zum Ablesen)")]
+
+    [Header("Live MIDI Display")]
     [SerializeField] private int lastReceivedChannel;
     [SerializeField] private int lastReceivedNote;
     [SerializeField] private int lastReceivedVelocity;
     [SerializeField] private int lastReceivedCC;
     [SerializeField] private int lastReceivedCCValue;
 
-    // Komponenten & Internes
     private Rigidbody2D rb;               
     private SpriteRenderer spriteRenderer;
     private Animator animator;
@@ -77,8 +65,6 @@ public class CollisionPD : MonoBehaviour
     private bool jumpRequested;           
     private bool pdPadBangRequested;
     private int direction = 1;
-
-   
 
     void Awake()
     {
@@ -91,25 +77,20 @@ public class CollisionPD : MonoBehaviour
 
     void OnEnable()
     {
-        // Event abonnieren: Wenn PD einen neuen Wert schickt, wird SetGlobalSpeed aufgerufen
-        PdSpeedReceiver.OnSpeedChanged += SetGlobalSpeed;
+        PdSpeedTriggReceiver.OnSpeedChanged += SetGlobalSpeed;
+        PdSpeedTriggReceiver.OnJumpBang += OnPdJump;
         
         if (midiInput != null)
         {
             midiInput.onControlChange += OnControlChangeCallback;
             midiInput.onNoteOn += OnNoteOnCallback;
-            Debug.Log($"[CollisionPD] MIDI-Events erfolgreich auf {gameObject.name} registriert.");
-        }
-        else
-        {
-            Debug.LogWarning($"[CollisionPD] {name}: MidiInput ist im Inspector NICHT zugewiesen!");
         }
     }
 
     void OnDisable()
     {
-        // NEU: PD-Event abmelden
-        PdSpeedReceiver.OnSpeedChanged -= SetGlobalSpeed;
+        PdSpeedTriggReceiver.OnSpeedChanged -= SetGlobalSpeed;
+        PdSpeedTriggReceiver.OnJumpBang -= OnPdJump;
         
         if (midiInput != null)
         {
@@ -125,14 +106,10 @@ public class CollisionPD : MonoBehaviour
 
         if (pdInstance == null)
             pdInstance = GetComponentInChildren<LibPdInstance>();
-
-        if (pdInstance == null)
-            Debug.LogError($"[CollisionPD] {name}: LibPdInstance fehlt!");
     }
 
     void Update()
     {
-        // Sanfter Übergang zur neuen Zielgeschwindigkeit
         globalSpeedMultiplier = Mathf.MoveTowards(
             globalSpeedMultiplier, 
             targetSpeedMultiplier, 
@@ -146,7 +123,7 @@ public class CollisionPD : MonoBehaviour
 
         if (jumpWithSpace && (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")))
         {
-            jumpRequested = true;
+            TriggerJump();
         }
 
         if (pdPadBangRequested)
@@ -155,7 +132,6 @@ public class CollisionPD : MonoBehaviour
             if (pdInstance != null)
             {
                 pdInstance.SendBang(ReceiverFromKey);
-                Debug.Log("[Unity -> PD] Bang für Pad gedrückt gesendet.");
             }
         }
 
@@ -174,8 +150,7 @@ public class CollisionPD : MonoBehaviour
         if (rb == null || rb.bodyType != RigidbodyType2D.Dynamic) return;
 
         float currentSpeed = baseMoveSpeed * globalSpeedMultiplier;
-        Vector2 movement = new Vector2(direction * currentSpeed * Time.fixedDeltaTime, 0f);
-        rb.position += movement;
+        rb.linearVelocity = new Vector2(direction * currentSpeed, rb.linearVelocity.y);
 
         if (jumpRequested)
         {
@@ -190,17 +165,25 @@ public class CollisionPD : MonoBehaviour
         }
     }
 
+    public void TriggerJump()
+    {
+        jumpRequested = true;
+    }
+
     public void SetGlobalSpeed(float multiplier)
     {
-        // Reagiere nur auf MIDI/Events, wenn MiceOnOff aktiv ist.
-        // Falls manuell gesteuert wird, bleibt die im Inspector gesetzte 'globalSpeedMultiplier' erhalten.
         if (!MiceOnOff)
         {
             targetSpeedMultiplier = globalSpeedMultiplier;
             return;
         }
-    
         targetSpeedMultiplier = Mathf.Clamp(multiplier, minSpeed, maxSpeed);
+    }
+    
+    private void OnPdJump()
+    {
+        TriggerJump();
+        Debug.Log($"[PD -> {gameObject.name}] PD-Bang empfangen & Sprung ausgeführt!");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -228,48 +211,36 @@ public class CollisionPD : MonoBehaviour
 
     private void OnControlChangeCallback(int channel, int control, int value)
     {
-        // 1. Für Live-Anzeige im Inspector speichern
         lastReceivedChannel = channel;
         lastReceivedCC = control;
         lastReceivedCCValue = value;
 
-        Debug.Log($"[MIDI CC EMPFANGEN] Kanal: {channel} | CC: {control} | Wert: {value}");
-
-        // 2. Abfragen auf den Knobs-Kanal beschränken
         if (channel == knobMidiChannel && control == targetCcControl)
         {
             float t = value / 127f;
             float calculatedSpeed = Mathf.Lerp(minSpeed, maxSpeed, t);
-
             SetGlobalSpeed(calculatedSpeed);
-            Debug.Log($"[AKTION] Knob CC {control} (Kanal {channel}, Wert: {value}) -> Tempo auf {calculatedSpeed:F2} gesetzt.");
         }
     }
 
     private void OnNoteOnCallback(int channel, int note, int velocity)
     {
-        // 1. Für Live-Anzeige im Inspector speichern
+        if (velocity <= 0) return;
+
         lastReceivedChannel = channel;
         lastReceivedNote = note;
         lastReceivedVelocity = velocity;
 
-        Debug.Log($"[MIDI NOTE EMPFANGEN] Kanal: {channel} | Note: {note} | Velocity: {velocity}");
-
-        // 2. Pad-Verarbeitung (auf padMidiChannel)
         if (channel == padMidiChannel && note == targetPadNote)
         {
-            jumpRequested = true;
+            TriggerJump();
             pdPadBangRequested = true;
-            Debug.Log($"[AKTION] Pad-Note ({note}) auf Kanal {channel} erkannt -> Sprung!");
         }
-        // 3. Keys-Verarbeitung (auf keyMidiChannel)
         else if (channel == keyMidiChannel && note >= targetLowKeyNote && note <= targetHighKeyNote)
         {
             float t = Mathf.InverseLerp(targetLowKeyNote, targetHighKeyNote, note);
             float calculatedSpeed = Mathf.Lerp(minSpeed, maxSpeed, t);
-
             SetGlobalSpeed(calculatedSpeed);
-            Debug.Log($"[AKTION] Note {note} (Kanal {channel}) gespielt -> Tempo auf {calculatedSpeed:F2} gesetzt.");
         }
     }
 }

@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "com.unity.2d.sprite": "1.0.0",
+    "com.unity.ide.rider": "3.0.40",
     "com.unity.multiplayer.center": "1.0.1",
     "com.unity.render-pipelines.universal": "17.5.0",
     "jp.keijiro.rtmidi": "https://github.com/keijiro/jp.keijiro.rtmidi.git?path=Packages/jp.keijiro.rtmidi#2.2.0",

@@ -198,6 +198,10 @@ PrefabInstance:
       propertyPath: pdInstance
       value: 
       objectReference: {fileID: 1438235110739307694}
+    - target: {fileID: -2751165319418985014, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
+      propertyPath: pdInstance
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 445819547489660997, guid: 126a1d440d9b6944f90f090756551c0d, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.1
@@ -315,10 +319,10 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &5890157658088100942
 BoxCollider2D:
@@ -380,12 +384,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pdInstance: {fileID: 1438235110739307694}
   ReceiverPdGo: collision
-  ReceiverFromKey: collision
-  midichannel: 9
-  noteMidi: 40
-  midiInput: {fileID: 0}
+  globalSpeedMultiplier: 1
+  targetSpeedMultiplier: 1
+  minSpeed: 0.2
+  maxSpeed: 20
+  speedChangeSmoothness: 3
+  MiceOnOff: 1
   jumpForce: 3
   jumpWithSpace: 1
+  baseMoveSpeed: 20
+  leftBoundary: -11.5
+  rightBoundary: 11.5
+  baseAnimationSpeed: 1
+  midiInput: {fileID: 0}
+  ReceiverFromKey: collision
+  padMidiChannel: 1
+  targetPadNote: 36
+  keyMidiChannel: 1
+  targetLowKeyNote: 48
+  targetHighKeyNote: 72
+  knobMidiChannel: 1
+  targetCcControl: 1
+  lastReceivedChannel: 0
+  lastReceivedNote: 0
+  lastReceivedVelocity: 0
+  lastReceivedCC: 0
+  lastReceivedCCValue: 0
 --- !u!114 &2499444105993858580
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -2751165319418985014}
   - component: {fileID: 3629015904945853957}
   - component: {fileID: 4426137802409896797}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GehFett
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ SpriteRenderer:
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 3e6e1609df5da894882f437b92a34961, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 14.08, y: 18.4}
@@ -135,10 +135,16 @@ MonoBehaviour:
   pdInstance: {fileID: 5265601319347916241}
   ReceiverPdGo: sahOn
   globalSpeedMultiplier: 1
+  targetSpeedMultiplier: 1
+  minSpeed: 0.2
+  maxSpeed: 3
   speedChangeSmoothness: 3
+  MiceOnOff: 1
+  jumpForce: 10
+  jumpWithSpace: 1
   baseMoveSpeed: 5
-  leftBoundary: -5
-  rightBoundary: 5
+  leftBoundary: -12
+  rightBoundary: 12
   baseAnimationSpeed: 1
   midiInput: {fileID: 0}
   ReceiverFromKey: sahOn
@@ -149,15 +155,11 @@ MonoBehaviour:
   targetHighKeyNote: 72
   knobMidiChannel: 1
   targetCcControl: 1
-  minSpeed: 0.2
-  maxSpeed: 3
   lastReceivedChannel: 0
   lastReceivedNote: 0
   lastReceivedVelocity: 0
   lastReceivedCC: 0
   lastReceivedCCValue: 0
-  jumpForce: 10
-  jumpWithSpace: 1
 --- !u!114 &-2751165319418985014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,11 +196,11 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!61 &4426137802409896797
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -256,7 +258,7 @@ GameObject:
   - component: {fileID: 404878101965250213}
   - component: {fileID: 4034909974566390518}
   - component: {fileID: 5265601319347916241}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: patch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -290,7 +292,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
