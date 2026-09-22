@@ -78,6 +78,7 @@ public class CollisionPDPitchTrigg : MonoBehaviour
     void OnEnable()
     {
         PdSpeedTriggReceiver.OnSpeedChanged += SetGlobalSpeed;
+        PdSpeedTriggReceiver.OnEnvelopeChanged += SetGlobalSpeed;
         PdSpeedTriggReceiver.OnJumpBang += OnPdJump;
         
         if (midiInput != null)
@@ -90,6 +91,7 @@ public class CollisionPDPitchTrigg : MonoBehaviour
     void OnDisable()
     {
         PdSpeedTriggReceiver.OnSpeedChanged -= SetGlobalSpeed;
+        PdSpeedTriggReceiver.OnEnvelopeChanged -= SetGlobalSpeed;
         PdSpeedTriggReceiver.OnJumpBang -= OnPdJump;
         
         if (midiInput != null)

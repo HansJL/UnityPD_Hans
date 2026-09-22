@@ -120,7 +120,7 @@ public class PdSpeedTriggReceiver : MonoBehaviour
                 normalized * envelopeMultiplier;
 
             OnEnvelopeChanged?.Invoke(rawValue);
-
+            Debug.Log("SpeedChanged Envelope: " + rawValue);
             return;
         }
 
@@ -137,6 +137,8 @@ public class PdSpeedTriggReceiver : MonoBehaviour
                 curvedValue * speedMultiplier;
 
             OnSpeedChanged?.Invoke(rawValue);
+            
+            Debug.Log("SpeedChanged Pitch: " + rawValue);
 
             return;
         }
@@ -176,4 +178,5 @@ public class PdSpeedTriggReceiver : MonoBehaviour
         pdInstance.UnBind("pitch_tracking");
         pdInstance.UnBind("envelope_follow");
     }
+
 }

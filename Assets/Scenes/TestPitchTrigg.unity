@@ -424,7 +424,7 @@ MonoBehaviour:
   pdInstance: {fileID: 2010615905}
   receiverType: 1
   speedMultiplier: 25
-  envelopeMultiplier: 1
+  envelopeMultiplier: 150
   useSqrtForSensitivity: 1
   useTrigger: 1
 --- !u!114 &471724223
