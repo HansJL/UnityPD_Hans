@@ -43,6 +43,13 @@ public class PdSpeedTriggReceiver : MonoBehaviour
 
     [Header("Trigger")]
     [SerializeField] private bool useTrigger = true;
+    [SerializeField] private bool useVolumeThreshold = true;
+
+    [Range(0f, 0.1f)]
+    [Tooltip("Normalisierter Mikrofon-Lautstärkegrenzwert. 0 = sehr empfindlich, 1 = nur sehr laute Signale.")]
+    [SerializeField] private float triggerVolumeThreshold = 0.02f;
+
+    private float latestEnvelopeValue;
 
     // ------------------------------------------------------------
     // EVENTS
@@ -107,11 +114,14 @@ public class PdSpeedTriggReceiver : MonoBehaviour
 
     private void OnReceiveFloat(string receiver, float value)
     {
+        if (receiver == "envelope_follow")
+            latestEnvelopeValue = Mathf.Clamp01(value);
+
         // ENVELOPE
         if (receiverType == ReceiverType.EnvelopeFollow &&
             receiver == "envelope_follow")
         {
-            float normalized = Mathf.Clamp01(value);
+            float normalized = latestEnvelopeValue;
 
             if (useSqrtForSensitivity)
                 normalized = Mathf.Sqrt(normalized);
@@ -150,6 +160,15 @@ public class PdSpeedTriggReceiver : MonoBehaviour
 
     private void OnReceiveBang(string receiver)
     {
+        if (!useTrigger || receiver != "trigger")
+            return;
+
+        if (useVolumeThreshold &&
+            latestEnvelopeValue < triggerVolumeThreshold)
+        {
+            return;
+        }
+
         if (useTrigger &&
             receiver == "trigger")
         {
