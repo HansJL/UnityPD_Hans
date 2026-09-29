@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup Condition="'$(MSBuildProjectName)' == 'UnityPD_Hans.Cursor'">
+    <BaseIntermediateOutputPath>Temp\obj\Cursor\Runtime\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(MSBuildProjectName)' == 'UnityPD_Hans.Cursor.Editor'">
+    <BaseIntermediateOutputPath>Temp\obj\Cursor\Editor\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+</Project>

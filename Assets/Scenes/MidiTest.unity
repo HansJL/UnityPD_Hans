@@ -5853,158 +5853,6 @@ MonoBehaviour:
   glitchAmount: 0.3
   digitalQuantize: 8
   noiseSpeed: 5
---- !u!82 &683690137
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3204032554926291342}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1.2170637
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!114 &683690138
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3204032554926291342}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ea89cfa7b71f97449eb0f25f97e9b17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MidiMapping
-  player: {fileID: 683690139}
-  midiInput: {fileID: 2000485793}
-  collisionPdReceiver: sahOn
-  padMappings:
-  - name: Pad 1 (Jump)
-    midiChannel: 0
-    midiNote: 60
-    jumpForce: 10
-    pdReceiverName: sahOn
-  - name: Pad 2 (High Jump)
-    midiChannel: 0
-    midiNote: 41
-    jumpForce: 15
-    pdReceiverName: sahOn
-  knobMappings:
-  - name: Knob 1 (Speed)
-    midiChannel: 0
-    ccNumber: 60
-    action: 1
-    pdReceiverName: 
-  speedMidiChannel: 0
-  baseNoteOffset: 48
-  enableKeyboardSpeedControl: 1
-  showDebugLogs: 1
---- !u!114 &683690139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3204032554926291342}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7464507e9448f747abf907542c0ef6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMove_B
-  globalSpeedMultiplier: 1
-  baseMoveSpeed: 5
-  leftBoundary: -5
-  rightBoundary: 5
-  defaultJumpForce: 10
-  allowSpaceJump: 1
-  baseAnimationSpeed: 1
 --- !u!50 &683690141
 Rigidbody2D:
   serializedVersion: 5
@@ -11745,6 +11593,8 @@ MonoBehaviour:
   envelopeMultiplier: 10
   useSqrtForSensitivity: 0
   useTrigger: 1
+  useVolumeThreshold: 1
+  triggerVolumeThreshold: 0.02
 --- !u!114 &1039989212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13205,9 +13055,6 @@ GameObject:
   - component: {fileID: 683690141}
   - component: {fileID: 6472206717028928862}
   - component: {fileID: 6472206717028928861}
-  - component: {fileID: 683690139}
-  - component: {fileID: 683690138}
-  - component: {fileID: 683690137}
   m_Layer: 6
   m_Name: GehFett (5)
   m_TagString: Untagged
@@ -13498,6 +13345,7 @@ GameObject:
   - component: {fileID: 404878102623770163}
   - component: {fileID: 4034909974159524448}
   - component: {fileID: 5265601318672647495}
+  - component: {fileID: 5363746008303370016}
   m_Layer: 6
   m_Name: patch
   m_TagString: Untagged
@@ -13505,6 +13353,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &5363746008303370016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5363746008303370015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b59e17e1d0cc884da3d997f8d230a90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MicrophoneInput
+  deviceName: Mic/Inst/Line In 1/2
+  bufferLengthSec: 1
+  silenceOutput: 1
+  startOnAwake: 1
 --- !u!114 &6472206717028928860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13528,15 +13392,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 3204032554926291342}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80378bec074127c40acb2fd9590ab1cb, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f0a9eecdbb4bcf47a753770f0259cbe, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PdSpeedTriggReceiver
+  m_EditorClassIdentifier: Assembly-CSharp::PdMicBridge
   pdInstance: {fileID: 5265601318672647495}
-  receiverType: 2
-  speedMultiplier: 10
-  envelopeMultiplier: 10
+  speedSource: 2
+  pitchSpeedMultiplier: 10
+  envelopeSpeedMultiplier: 10
   useSqrtForSensitivity: 0
   useTrigger: 1
+  useVolumeThreshold: 0
+  triggerVolumeThreshold: 0.02
 --- !u!114 &6472206717028928862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13546,37 +13412,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 3204032554926291342}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58b64e330fe53344a9165c15e57d1226, type: 3}
+  m_Script: {fileID: 11500000, guid: fe4a91d319f69d34e962ebbb697f8875, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CollisionPDPitchTrigg
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterWalker2D
   pdInstance: {fileID: 5265601318672647495}
-  ReceiverPdGo: sahOn
-  ReceiverFromKey: sahOnKey
+  sphereHitReceiver: sahOn
   globalSpeedMultiplier: 1
-  targetSpeedMultiplier: 1
   minSpeed: 0.2
   maxSpeed: 20
   speedChangeSmoothness: 3
-  MiceOnOff: 1
-  jumpForce: 10
-  jumpWithSpace: 1
+  useMicSpeed: 1
   baseMoveSpeed: 20
   leftBoundary: -11.5
   rightBoundary: 11.5
+  jumpForce: 10
+  jumpWithSpace: 1
   baseAnimationSpeed: 1
-  midiInput: {fileID: 2000485793}
-  padMidiChannel: 1
-  targetPadNote: 36
-  keyMidiChannel: 1
-  targetLowKeyNote: 48
-  targetHighKeyNote: 72
-  knobMidiChannel: 1
-  targetCcControl: 1
-  lastReceivedChannel: 0
-  lastReceivedNote: 0
-  lastReceivedVelocity: 0
-  lastReceivedCC: 0
-  lastReceivedCCValue: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
