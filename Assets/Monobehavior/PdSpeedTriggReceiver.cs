@@ -130,7 +130,7 @@ public class PdSpeedTriggReceiver : MonoBehaviour
                 normalized * envelopeMultiplier;
 
             OnEnvelopeChanged?.Invoke(rawValue);
-            Debug.Log("SpeedChanged Envelope: " + rawValue);
+            // Debug.Log("SpeedChanged Envelope: " + rawValue);
             return;
         }
 
@@ -148,7 +148,7 @@ public class PdSpeedTriggReceiver : MonoBehaviour
 
             OnSpeedChanged?.Invoke(rawValue);
             
-            Debug.Log("SpeedChanged Pitch: " + rawValue);
+            //Debug.Log("SpeedChanged Pitch: " + rawValue);
 
             return;
         }
